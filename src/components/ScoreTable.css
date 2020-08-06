@@ -1,0 +1,33 @@
+ion-grid.points-grid {
+  margin-top: 1.5rem;
+}
+
+.points-grid ion-col {
+  text-align: center;
+}
+
+.points-grid ion-row.grid-header ion-col {
+  padding: 1rem;
+  background-color: aqua;
+  font-weight: 600;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+
+.points-grid ion-row.grid-content ion-col {
+  padding: 1rem;
+  font-weight: 500;
+  border-bottom: 1px solid #ccc;
+}
+
+.points-grid ion-row ion-col {
+  border-left: 1px solid #aaa;
+}
+
+.points-grid ion-row ion-col:last-child {
+  border-right: 1px solid #ccc;
+}
+
+.points-grid ion-row:last-child ion-col {
+  border-bottom: 1px solid #ccc;
+}
