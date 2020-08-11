@@ -1,16 +1,16 @@
-.row-class-first div[role='gridcell'] {
+.row-class-first div[role="gridcell"] {
   /* background-color: gold; */
   color: gold;
   font-weight: 700;
 }
 
-.row-class-second div[role='gridcell'] {
+.row-class-second div[role="gridcell"] {
   /* background-color: silver; */
   color: silver;
   font-weight: 700;
 }
 
-.row-class-third div[role='gridcell'] {
+.row-class-third div[role="gridcell"] {
   /* background-color: #cd7f32; */
   color: #cd7f32;
   font-weight: 700;

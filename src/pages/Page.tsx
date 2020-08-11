@@ -77,8 +77,8 @@ const Page: React.FC = () => {
     setPointData(formPointArray(leaguePoints));
   };
 
-  const formPointArray = (leaguePoints: any) => Object.keys(leaguePoints)
-  .map((team) => ({ ...leaguePoints[team], team }))
+  const formPointArray = (leaguePoints: any) =>
+    Object.keys(leaguePoints).map((team) => ({ ...leaguePoints[team], team }));
 
   // const sortByPointDesc = (leaguePoints: any) =>
   //   Object.keys(leaguePoints)
