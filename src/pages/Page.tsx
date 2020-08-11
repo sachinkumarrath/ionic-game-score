@@ -47,10 +47,10 @@ const Page: React.FC = () => {
           setSelectedMap(defaultMap);
           const leaguePoints =
             responseData[defaultLeague]["points"][defaultMap];
-          setPointData(sortByPointDesc(leaguePoints));
+          setPointData(formPointArray(leaguePoints));
         } else {
           const { points: leaguePoints } = responseData[defaultLeague];
-          setPointData(sortByPointDesc(leaguePoints));
+          setPointData(formPointArray(leaguePoints));
         }
       });
   }, [name, isSingle]);
@@ -63,10 +63,10 @@ const Page: React.FC = () => {
       const leaguePoints = leagueData[changedLeague]["points"][defaultMap];
       setSelectedMap(defaultMap);
       setMaps(leagueData[changedLeague]["maps"]);
-      setPointData(sortByPointDesc(leaguePoints));
+      setPointData(formPointArray(leaguePoints));
     } else {
       const { points: leaguePoints } = leagueData[changedLeague];
-      setPointData(sortByPointDesc(leaguePoints));
+      setPointData(formPointArray(leaguePoints));
     }
   };
 
@@ -74,18 +74,21 @@ const Page: React.FC = () => {
     const changedMap = event.target.value;
     const leaguePoints = leagueData[selectedLeague]["points"][changedMap];
     setSelectedMap(changedMap);
-    setPointData(sortByPointDesc(leaguePoints));
+    setPointData(formPointArray(leaguePoints));
   };
 
-  const sortByPointDesc = (leaguePoints: any) =>
-    Object.keys(leaguePoints)
-      .map((team) => ({ ...leaguePoints[team], team }))
-      .sort((row1, row2) => {
-        if (row2.points === row1.points) {
-          return row2.scoreDiff - row1.scoreDiff;
-        }
-        return row2.points - row1.points;
-      });
+  const formPointArray = (leaguePoints: any) => Object.keys(leaguePoints)
+  .map((team) => ({ ...leaguePoints[team], team }))
+
+  // const sortByPointDesc = (leaguePoints: any) =>
+  //   Object.keys(leaguePoints)
+  //     .map((team) => ({ ...leaguePoints[team], team }))
+  //     .sort((row1, row2) => {
+  //       if (row2.points === row1.points) {
+  //         return row2.scoreDiff - row1.scoreDiff;
+  //       }
+  //       return row2.points - row1.points;
+  //     });
 
   return (
     <IonPage>
@@ -101,7 +104,7 @@ const Page: React.FC = () => {
       <IonContent>
         <IonGrid>
           <IonRow>
-            <IonCol sizeMd="3" offsetMd="2">
+            <IonCol sizeMd="3" offsetMd="1">
               <IonLabel>Please select a league:</IonLabel>
               <IonSelect
                 className="page-select"
@@ -117,7 +120,7 @@ const Page: React.FC = () => {
               </IonSelect>
             </IonCol>
             {isSingle ? (
-              <IonCol sizeMd="3" offset="2">
+              <IonCol sizeMd="3" offset="1">
                 <IonLabel>Please select a map:</IonLabel>
                 <IonSelect
                   className="page-select"
