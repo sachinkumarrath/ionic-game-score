@@ -13,82 +13,36 @@ import {
   IonRow,
   IonCol,
 } from "@ionic/react";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useParams } from "react-router";
 import "./Page.css";
 import ScoreTable from "../components/ScoreTable";
+import usePointTable from "../hooks/usePointTable";
 
 const Page: React.FC = () => {
-  const [leagueData, setLeagueData] = useState<any>({});
-  const [maps, setMaps] = useState<{ key: string; name: string }[]>([]);
-  const [leagues, setLeagues] = useState<string[]>([]);
-  const [selectedMap, setSelectedMap] = useState<string>("");
-  const [selectedLeague, setSelectedLeague] = useState<string>("");
-  const [pointData, setPointData] = useState<
-    { team: string; played: number; points: number; scoreDiff: string }[]
-  >([]);
-
   const { name } = useParams<{ name: string }>();
   const isSingle = name === "single";
   const title = isSingle ? "Individual Score" : "Team Score";
-
-  useEffect(() => {
-    const url = `https://cs-score.firebaseio.com/${name}.json`;
-    fetch(url)
-      .then((res) => res.json())
-      .then((responseData) => {
-        const defaultLeague = responseData.leagues[0];
-        const defaultMap = "overall";
-        setLeagueData(responseData);
-        setLeagues(responseData.leagues);
-        setSelectedLeague(defaultLeague);
-        if (isSingle) {
-          setMaps(responseData[defaultLeague]["maps"]);
-          setSelectedMap(defaultMap);
-          const leaguePoints =
-            responseData[defaultLeague]["points"][defaultMap];
-          setPointData(formPointArray(leaguePoints));
-        } else {
-          const { points: leaguePoints } = responseData[defaultLeague];
-          setPointData(formPointArray(leaguePoints));
-        }
-      });
-  }, [name, isSingle]);
+  const {
+    maps,
+    leagues,
+    selectedMap,
+    selectedLeague,
+    pointData,
+    onMapChange: onMapChangeHooks,
+    onLeagueChange: onLeagueChangeHooks,
+  } = usePointTable({
+    name,
+    isSingle,
+  });
 
   const onLeagueChange = (event: any) => {
-    const changedLeague = event.target.value;
-    setSelectedLeague(changedLeague);
-    if (isSingle) {
-      const defaultMap = "overall";
-      const leaguePoints = leagueData[changedLeague]["points"][defaultMap];
-      setSelectedMap(defaultMap);
-      setMaps(leagueData[changedLeague]["maps"]);
-      setPointData(formPointArray(leaguePoints));
-    } else {
-      const { points: leaguePoints } = leagueData[changedLeague];
-      setPointData(formPointArray(leaguePoints));
-    }
+    onLeagueChangeHooks(event);
   };
 
   const onMapChange = (event: any) => {
-    const changedMap = event.target.value;
-    const leaguePoints = leagueData[selectedLeague]["points"][changedMap];
-    setSelectedMap(changedMap);
-    setPointData(formPointArray(leaguePoints));
+    onMapChangeHooks(event);
   };
-
-  const formPointArray = (leaguePoints: any) =>
-    Object.keys(leaguePoints).map((team) => ({ ...leaguePoints[team], team }));
-
-  // const sortByPointDesc = (leaguePoints: any) =>
-  //   Object.keys(leaguePoints)
-  //     .map((team) => ({ ...leaguePoints[team], team }))
-  //     .sort((row1, row2) => {
-  //       if (row2.points === row1.points) {
-  //         return row2.scoreDiff - row1.scoreDiff;
-  //       }
-  //       return row2.points - row1.points;
-  //     });
 
   return (
     <IonPage>

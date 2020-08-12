@@ -74,9 +74,14 @@ const MatchRecords: React.FC = () => {
 
   const columnDefs = [
     {
-      headerName: "Employee",
-      field: "name",
-      checkboxSelection: true,
+      headerName: "Team 1",
+      field: "team1",
+      filter: true,
+    },
+    {
+      headerName: "Team 2",
+      field: "team2",
+      filter: true,
     },
     {
       headerName: "Employee Data",
